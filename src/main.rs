@@ -28,9 +28,9 @@ fn get_differences(left_text: &String, right_text: &String) -> Vec<Difference> {
 
 fn main() {
     let left_file =
-        read_to_string("/Users/dnutiu/RustroverProjects/ndiff/a.txt").expect("Left file not found");
+        read_to_string("a.txt").expect("Left file not found");
     let right_file =
-        read_to_string("/Users/dnutiu/RustroverProjects/ndiff/b.txt").expect("Right file found");
+        read_to_string("b.txt").expect("Right file not found");
 
     let res: Vec<Difference> = get_differences(&left_file, &right_file);
 
