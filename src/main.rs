@@ -37,7 +37,7 @@ fn main() {
     for line in lines.iter() {
         let line = line.deref();
         print!("{}", line);
-        if line.is_difference() {
+        if line.is_differing() {
             differences_counter += 1;
         }
     }

@@ -3,7 +3,7 @@ use std::fmt::Formatter;
 use std::ops::Deref;
 
 pub trait Line: fmt::Display {
-    fn is_difference(&self) -> bool;
+    fn is_differing(&self) -> bool;
 }
 
 /// Line represents a non-differing line.
@@ -33,7 +33,7 @@ impl fmt::Display for MatchedLine {
 }
 
 impl Line for MatchedLine {
-    fn is_difference(&self) -> bool {
+    fn is_differing(&self) -> bool {
        false
     }
 }
@@ -94,7 +94,7 @@ impl fmt::Display for DifferingLine {
 }
 
 impl Line for DifferingLine {
-    fn is_difference(&self) -> bool {
+    fn is_differing(&self) -> bool {
         true
     }
 }
