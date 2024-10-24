@@ -35,7 +35,7 @@ fn main() {
 
     let mut differences_counter: i32 = 0;
     for line in lines.iter() {
-        print!("{}", line);
+        line.print();
         match line {
             Line::MatchedLine(_, _) => {}
             Line::DifferingLine(_, _, _) => {

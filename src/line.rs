@@ -1,5 +1,6 @@
-use std::fmt;
-use std::fmt::Formatter;
+use std::{fmt};
+use std::fmt::{Debug, Formatter};
+use termcolor::{Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
 
 #[derive(Debug)]
 pub(crate) struct MissingLineIndicator {
@@ -24,6 +25,29 @@ pub(crate) enum Line {
     ///
     /// DifferingLine(line_number, left_line, right_line)
     DifferingLine(i32, String, String),
+}
+
+impl Line {
+
+    /// Prints the line to stdout
+    pub fn print(&self) {
+        match self {
+            Line::MatchedLine(line_number, line) => {
+                println!(r#"{}. {}"#, line_number, line)
+            }
+            Line::DifferingLine(line_number, left_line, right_line) => {
+                let mut stdout = StandardStream::stdout(ColorChoice::Always);
+                let _ = stdout.set_color(ColorSpec::new().set_fg(Some(Color::Green)));
+                println!(" - {}", left_line);
+                let _ = stdout.reset();
+                println!("{line_number}. ----");
+                let _ = stdout.set_color(ColorSpec::new().set_fg(Some(Color::Red)));
+                println!(" + {}", right_line);
+                let _ = stdout.reset();
+                let _ = stdout.reset();
+            }
+        }
+    }
 }
 
 impl fmt::Display for Line {
