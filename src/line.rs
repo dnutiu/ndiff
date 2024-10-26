@@ -40,7 +40,10 @@ impl Line {
                 let _ = stdout.set_color(ColorSpec::new().set_fg(Some(Color::Green)));
                 println!(" - {}", left_line);
                 let _ = stdout.reset();
-                println!("{line_number}. ----");
+                let _ = stdout.set_color(ColorSpec::new().set_fg(Some(Color::Red)));
+                print!("{}.", line_number);
+                let _ = stdout.reset();
+                println!("----");
                 let _ = stdout.set_color(ColorSpec::new().set_fg(Some(Color::Red)));
                 println!(" + {}", right_line);
                 let _ = stdout.reset();
