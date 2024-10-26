@@ -8,8 +8,10 @@ since it's utility is to learn Rust concepts by completing a simple project.
 
 ## Installation
 
-You may install and play around with the program using the command line:
+You can install and play around with the program using the command line:
 
 ```bash
 cargo install --git https://github.com/dnutiu/ndiff
 ```
+
+To use the program run: `ndiff a.txt b.txt`
