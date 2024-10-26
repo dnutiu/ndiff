@@ -1,16 +1,17 @@
-use std::{fmt};
+use itertools::Itertools;
+use std::fmt;
 use std::fmt::{Debug, Formatter};
 use termcolor::{Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
 
 #[derive(Debug)]
 pub(crate) struct MissingLineIndicator {
-    pub value: String
+    pub value: String,
 }
 
 impl Default for MissingLineIndicator {
     fn default() -> Self {
-        MissingLineIndicator{
-            value: String::from("<missing line>")
+        MissingLineIndicator {
+            value: String::from("<missing line>"),
         }
     }
 }
@@ -28,7 +29,6 @@ pub(crate) enum Line {
 }
 
 impl Line {
-
     /// Prints the line to stdout
     pub fn print(&self) {
         match self {
@@ -72,4 +72,30 @@ impl fmt::Display for Line {
             }
         }
     }
+}
+
+/// Compares the lines of two texts.
+///
+/// It returns a [`Vec<Line>`]
+pub fn compare_lines(left_text: &str, right_text: &str) -> Vec<Line> {
+    left_text
+        .lines()
+        .map(String::from)
+        .zip_longest(right_text.lines().map(String::from))
+        .enumerate()
+        .map(|(line_number, item)| -> Line {
+            let missing_line_indicator: MissingLineIndicator = Default::default();
+            let left = item
+                .clone()
+                .left()
+                .unwrap_or(missing_line_indicator.value.clone());
+            let right = item.right().unwrap_or(missing_line_indicator.value);
+
+            if left != right {
+                Line::DifferingLine(line_number as i32 + 1, left, right)
+            } else {
+                Line::MatchedLine(line_number as i32 + 1, left)
+            }
+        })
+        .collect()
 }
