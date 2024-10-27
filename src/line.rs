@@ -17,6 +17,7 @@ impl Default for MissingLineIndicator {
 }
 
 /// The line enum models a file line.
+#[derive(PartialEq, Debug)]
 pub(crate) enum Line {
     /// MatchedLine represents a line that matches when comparing the files.
     ///
@@ -101,4 +102,37 @@ pub fn compare_lines(left_text: &str, right_text: &str) -> Vec<Line> {
             }
         })
         .collect()
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    use crate::line::Line::{DifferingLine, MatchedLine};
+
+    #[test]
+    fn it_should_compare_one_matched_line() {
+        let lines = compare_lines("asd", "asd");
+        assert_eq!(lines, vec![MatchedLine(1, String::from("asd"))])
+    }
+
+    #[test]
+    fn it_should_compare_one_differing_line() {
+        let lines = compare_lines("asd", "basd");
+        assert_eq!(
+            lines,
+            vec![DifferingLine(1, String::from("asd"), String::from("basd"))]
+        )
+    }
+
+    #[test]
+    fn it_should_compare_one_matching_and_one_differing_line() {
+        let lines = compare_lines("one\ntwo", "zero\ntwo");
+        assert_eq!(
+            lines,
+            vec![
+                DifferingLine(1, String::from("one"), String::from("zero")),
+                MatchedLine(2, String::from("two"))
+            ]
+        )
+    }
 }
